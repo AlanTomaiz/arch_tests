@@ -9,12 +9,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "@domain/*": ["domain/*"],
-      "@adapters/*": ["adapters/*"],
-      "@ports/*": ["ports/*"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
   "tsc-alias": {
     "resolveFullPaths": true,

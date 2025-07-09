@@ -1,6 +1,6 @@
+import { UserService } from "@domain/services/UserService";
 import type { Request, Response } from "express";
 import { z } from "zod";
-import type { UserService } from "../../domain/services/UserService";
 
 const userSchema = z.object({
   email: z.string().email(),

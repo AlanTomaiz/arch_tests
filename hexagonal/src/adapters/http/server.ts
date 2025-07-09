@@ -1,9 +1,11 @@
+import "dotenv/config";
+
+import { UserController } from "@adapters/controllers/UserController";
+import { RabbitMQPublisher } from "@adapters/messaging/RabbitMQPublisher";
+import { PrismaUserRepository } from "@adapters/repositories/PrismaUserRepository";
+import { UserService } from "@domain/services/UserService";
 import { PrismaClient } from "@prisma/client";
 import express from "express";
-import { UserService } from "../../domain/services/UserService";
-import { UserController } from "../controllers/UserController";
-import { RabbitMQPublisher } from "../messaging/RabbitMQPublisher";
-import { PrismaUserRepository } from "../repositories/PrismaUserRepository";
 
 async function main() {
   const app = express();

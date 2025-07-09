@@ -1,0 +1,42 @@
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3
+    ports:
+      - 5672:5672
+    networks:
+      - shared-network
+
+  user-service:
+    container_name: user-service
+    build:
+      context: ./hexagonal
+    environment:
+      DATABASE_URL: postgresql://docker:docker@postgresql:5432/postgresql?schema=testes
+      RABBITMQ_URL: amqp://rabbitmq
+      PORT: 3000
+    depends_on:
+      - rabbitmq
+    ports:
+      - 3000:3000
+    networks:
+      - shared-network
+
+  email-service:
+    container_name: email-service
+    build:
+      context: ./microservices/hexagonal
+    environment:
+      RABBITMQ_URL: amqp://rabbitmq
+      SMTP_USER: your_smtp_user
+      SMTP_PASS: your_smtp_pass
+    depends_on:
+      - rabbitmq
+    ports:
+      - 3001:3001
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
