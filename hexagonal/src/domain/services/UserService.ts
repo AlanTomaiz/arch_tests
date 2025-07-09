@@ -23,8 +23,6 @@ export class UserService {
     };
 
     await this.userRepo.create(newUser);
-
-    // Envia evento para microserviço de email
     await this.emailPublisher.publishUserRegistered(newUser);
 
     return newUser;

@@ -4,15 +4,27 @@ import { EmailService } from "../services/EmailService";
 export class RabbitMQConsumer {
   private channel!: amqp.Channel;
   private readonly queueName = "user.registered";
+  private readonly retryInterval = 5 * 1000; // 5s
 
   constructor(private url: string, private emailService: EmailService) {}
 
-  async connect() {
-    const connection = await amqp.connect(this.url);
-    this.channel = await connection.createChannel();
-    await this.channel.assertQueue(this.queueName, { durable: true });
+  private delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
-    this.startConsuming();
+  async connect() {
+    while(true) {
+      try {
+        const connection = await amqp.connect(this.url);
+        this.channel = await connection.createChannel();
+        await this.channel.assertQueue(this.queueName, { durable: true });
+
+        this.startConsuming();
+        break;
+      } catch (error: any) {
+        await this.delay(this.retryInterval);
+      }
+    }
   }
 
   async startConsuming() {

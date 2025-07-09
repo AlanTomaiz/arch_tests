@@ -5,7 +5,7 @@ import amqp from "amqplib";
 export class RabbitMQPublisher implements IEmailPublisher {
   private channel?: amqp.Channel;
   private readonly queueName = "user.registered";
-  private readonly retryInterval = 500; // 500ms
+  private readonly retryInterval = 5 * 1000; // 5s
 
   constructor(private url: string) {}
 
@@ -19,11 +19,8 @@ export class RabbitMQPublisher implements IEmailPublisher {
         const connection = await amqp.connect(this.url);
         this.channel = await connection.createChannel();
         await this.channel.assertQueue(this.queueName, { durable: true });
-        console.log(`[RabbitMQPublisher] Conectado e fila "${this.queueName}" pronta.`);
         break;
       } catch (error: any) {
-        console.error(`[RabbitMQPublisher] Falha ao conectar: ${error.message}`);
-        console.log(`[RabbitMQPublisher] Tentando novamente em ${this.retryInterval}ms...`);
         await this.delay(this.retryInterval);
       }
     }

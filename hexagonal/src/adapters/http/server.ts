@@ -14,8 +14,7 @@ async function main() {
   const prisma = new PrismaClient();
   const userRepo = new PrismaUserRepository(prisma);
 
-  const rabbitMQUrl = String(process.env.RABBITMQ_URL);
-  const emailPublisher = new RabbitMQPublisher(rabbitMQUrl);
+  const emailPublisher = new RabbitMQPublisher(process.env.RABBITMQ_URL!);
   await emailPublisher.connect();
 
   const userService = new UserService(userRepo, emailPublisher);
