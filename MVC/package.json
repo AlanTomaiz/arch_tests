@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc && tsc-alias -p tsconfig.json",
-    "start": "node dist/adapters/http/server.js",
-    "dev": "tsx watch src/adapters/http/server.ts"
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.11.1",

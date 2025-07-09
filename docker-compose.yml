@@ -10,7 +10,8 @@ services:
   user-service:
     container_name: user-service
     build:
-      context: ./hexagonal
+      # context: ./hexagonal
+      context: ./MVC
     environment:
       DATABASE_URL: postgresql://docker:docker@postgresql:5432/postgresql?schema=testes
       RABBITMQ_URL: amqp://rabbitmq
