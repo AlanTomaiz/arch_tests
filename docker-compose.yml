@@ -34,7 +34,7 @@ services:
   email-service:
     container_name: email-service
     build:
-      context: ./microservices/hexagonal
+      context: ./mail-micro
     environment:
       RABBITMQ_URL: amqp://rabbitmq
       SMTP_USER: your_smtp_user
