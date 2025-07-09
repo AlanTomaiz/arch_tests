@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 import { UserRegisteredProducer } from "../producers/UserRegisteredProducer";
-import { UserRepositoryPrisma } from "../repositories/implementations/UserRepositoryPrisma";
+// import { UserRepositoryPrisma } from "../repositories/implementations/UserRepositoryPrisma";
+import { UserRepositoryMongo } from "repositories/implementations/UserRepositoryMongo";
 import { UserService } from "../services/UserService";
 
 const router = Router();
@@ -9,7 +10,8 @@ const router = Router();
 const producer = new UserRegisteredProducer(process.env.RABBITMQ_URL!);
 await producer.connect();
 
-const userRepo = new UserRepositoryPrisma();
+// const userRepo = new UserRepositoryPrisma();
+const userRepo = new UserRepositoryMongo();
 const service = new UserService(userRepo, producer);
 const controller = new UserController(service);
 
